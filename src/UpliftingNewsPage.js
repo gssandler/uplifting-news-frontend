@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const categories = ["Health", "Environment", "Community"];
 
@@ -51,53 +47,70 @@ export default function UpliftingNewsPage() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-4 text-center">The Bright Report</h1>
-      <p className="text-center mb-6 text-lg">Daily curated uplifting news from around the world.</p>
+    <div style={{ maxWidth: '800px', margin: 'auto', padding: '20px' }}>
+      <h1 style={{ fontSize: '2rem', textAlign: 'center' }}>The Bright Report</h1>
+      <p style={{ textAlign: 'center', marginBottom: '20px' }}>Daily curated uplifting news from around the world.</p>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="flex justify-center mb-6 space-x-4">
-          {categories.map((category) => (
-            <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
-          ))}
-        </TabsList>
-
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
         {categories.map((category) => (
-          <TabsContent key={category} value={category} className="space-y-4">
-            {(newsByCategory[category] || []).map((news, index) => (
-              <Card key={index} className="hover:shadow-lg transition">
-                <CardContent className="p-4">
-                  <a
-                    href={news.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xl font-semibold text-blue-600 hover:underline"
-                  >
-                    {news.title}
-                  </a>
-                  <p className="text-sm text-gray-500 mt-1">Source: {news.source}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
+          <button
+            key={category}
+            onClick={() => setActiveTab(category)}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: activeTab === category ? '#333' : '#ccc',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer',
+              borderRadius: '4px'
+            }}
+          >
+            {category}
+          </button>
         ))}
-      </Tabs>
+      </div>
 
-      <div className="mt-10 text-center">
-        <Input
+      {(newsByCategory[activeTab] || []).map((news, index) => (
+        <div key={index} style={{ border: '1px solid #ddd', padding: '16px', borderRadius: '8px', marginBottom: '10px' }}>
+          <a href={news.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '1.2rem', color: '#0066cc', textDecoration: 'none' }}>
+            {news.title}
+          </a>
+          <p style={{ fontSize: '0.9rem', color: '#666' }}>Source: {news.source}</p>
+        </div>
+      ))}
+
+      <div style={{ textAlign: 'center', marginTop: '40px' }}>
+        <input
           value={submission}
           onChange={(e) => setSubmission(e.target.value)}
           placeholder="Submit a positive news tip"
-          className="mb-2"
+          style={{ padding: '10px', width: '70%', marginBottom: '10px' }}
         />
-        <Button onClick={handleSubmission}>Submit</Button>
+        <br />
+        <button onClick={handleSubmission} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
+          Submit
+        </button>
       </div>
 
-      <div className="mt-10 text-center">
-        <h2 className="text-2xl font-semibold mb-2">Subscribe to Our Newsletter</h2>
-        <form action="https://buttondown.email/api/emails/embed-subscribe/YOUR_NEWSLETTER" method="post" target="_blank" className="space-y-2">
-          <Input type="email" name="email" placeholder="Enter your email" required className="w-full max-w-md mx-auto" />
-          <Button type="submit">Subscribe</Button>
+      <div style={{ textAlign: 'center', marginTop: '40px' }}>
+        <h2 style={{ fontSize: '1.5rem' }}>Subscribe to Our Newsletter</h2>
+        <form
+          action="https://buttondown.email/api/emails/embed-subscribe/YOUR_NEWSLETTER"
+          method="post"
+          target="_blank"
+          style={{ marginTop: '10px' }}
+        >
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            style={{ padding: '10px', width: '70%' }}
+          />
+          <br />
+          <button type="submit" style={{ padding: '10px 20px', marginTop: '10px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px' }}>
+            Subscribe
+          </button>
         </form>
       </div>
     </div>
